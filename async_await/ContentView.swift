@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct Quote: Codable {
-    var anime: String
-    var character: String
-    var quote: String
-}
-
 struct ContentView: View {
     @State private var quotes = [Quote]()
     
@@ -32,29 +26,8 @@ struct ContentView: View {
             }
             .navigationTitle("Quotes")
             .task {
-                await fetchData()
+               quotes = await QuoteRepository().fetchData()
             }
-        }
-    }
-    
-    func fetchData() async {
-        let urlString = "https://animechan.vercel.app/api/quotes"
-        //create url
-        guard let url = URL(string: urlString) else {
-            print("THIS URL DOESN'T WORK")
-            return
-        }
-        
-        //fetch data
-        do {
-            let (data , _) = try await URLSession.shared.data(from: url)
-            
-            if let decodeResponse = try? JSONDecoder().decode([Quote].self, from: data) {
-                quotes = decodeResponse
-            }
-        } catch {
-            print("EUH")
-            print(error.localizedDescription)
         }
     }
 }
