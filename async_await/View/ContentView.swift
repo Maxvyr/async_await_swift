@@ -14,14 +14,11 @@ struct ContentView: View {
         NavigationView {
             List(quotes, id: \.quote) { quote in
                 VStack(alignment: .leading) {
-                    Text(quote.character)
-                        .font(.headline)
-                        .foregroundColor(Color("skyBlue"))
-                    Text(quote.anime)
-                        .font(.title3)
-                    Text(quote.quote)
-                        .font(.body)
-                        .foregroundColor(.secondary)
+                    NavigationLink{
+                        QuoteDetailsView(quote: quote)
+                    } label: {
+                        QuoteCell(quote: quote)
+                    }
                 }
             }
             .navigationTitle("Quotes")
